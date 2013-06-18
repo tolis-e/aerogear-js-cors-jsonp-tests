@@ -52,7 +52,7 @@ public class MemberService {
 		rb.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 
-		if (!"".equals(returnMethod)) {
+		if (!"".equals(returnMethod) && returnMethod != null) {
 			rb.header("Access-Control-Allow-Headers", returnMethod);
 		}
 
