@@ -1,6 +1,6 @@
-language: node_js
-node_js:
- - 0.11
+language: java
+jdk:
+  - openjdk7
 before_install:
  - TAP_INTERFACE = `sudo tunctl -b`
  - echo "$tap_interface"
