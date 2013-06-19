@@ -277,13 +277,13 @@
 
     <interfaces>
         <interface name="management">
-            <inet-address value="${jboss.bind.address.management:192.168.0.1}"/>
+            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:192.168.0.1}"/>
+            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
         </interface>
         <interface name="unsecure">
-            <inet-address value="${jboss.bind.address.unsecure:192.168.0.1}"/>
+            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
         </interface>
     </interfaces>
 
@@ -292,7 +292,7 @@
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9443}"/>
         <socket-binding name="ajp" port="8009"/>
-        <socket-binding name="http" port="8080"/>
+        <socket-binding name="http" port="8081"/>
         <socket-binding name="https" port="8443"/>
         <socket-binding name="osgi-http" interface="management" port="8090"/>
         <socket-binding name="remoting" port="4447"/>
