@@ -16,7 +16,7 @@ before_install:
 install:
  - echo "install phase"
 before_script:
- - echo "before script phase"
+ - echo "before_script phase"
 script:
  - mvn -f aerogear-js-cors-jsonp-tests/pom.xml clean package
  - mvn -f aerogear-rest-service/pom.xml clean package
