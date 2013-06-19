@@ -33,7 +33,7 @@
     </properties>
 
     <build>
-        <finalName>aerogear-js-cors-jsop-tests</finalName>
+        <finalName>aerogear-js-cors-jsonp-tests</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
