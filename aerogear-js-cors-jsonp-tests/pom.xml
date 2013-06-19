@@ -20,10 +20,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.aerogearjs.pipe</groupId>
-    <artifactId>aerogear-js-cors-jsop-tests</artifactId>
+    <artifactId>aerogear-js-cors-jsonp-tests</artifactId>
     <packaging>war</packaging>
     <version>1.0.1</version>
-    <name>aerogear-js-cors-jsop-tests</name>
+    <name>aerogear-js-cors-jsonp-tests</name>
     <url>http://aerogear.org</url>
 
     <properties>
