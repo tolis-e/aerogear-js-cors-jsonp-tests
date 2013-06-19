@@ -3,9 +3,10 @@ node_js:
  - 0.11
 before_install:
  - sudo apt-get install uml-utilities
- - tun_path=`find /lib/modules/ -iname 'tun.ko.gz'`
- - echo "$tun_path"
- - insmod "$tun_path"
+ - sudo mkdir /dev/net
+ - sudo mknod /dev/net/tun c 10 200
+ - sudo chmod 0666 /dev/net/tun
+ - sudo modprobe tun
  - tap_interface=`sudo tunctl -b`
  - echo "$tap_interface"
  - sudo ifconfig $tap_interface 192.168.0.1 netmask 255.255.0.1 up
