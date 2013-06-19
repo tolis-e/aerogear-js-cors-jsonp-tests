@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+ - 0.11
+before_install:
+ - TAP_INTERFACE = `sudo tunctl -b`
+ - echo "$tap_interface"
+ - sudo ifconfig $TAP_INTERFACE 192.168.0.1 netmask 255.255.0.1 up
+ - wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
+ - tar -xvf jboss-as-7.1.1.Final.tar.gz
+ - mkdir jboss-as-{1,2}
+ - cp -r jboss-as-7.1.1.Final jboss-as-1
+ - cp -r jboss-as-7.1.1.Final jboss-as-2
+ - mv help-files/standalone.xml jboss-as-1/jboss-as-7.1.1.Final/standalone/configuration
+ - chmod +x jboss-as-1/jboss-as-7.1.1.Final/bin/standalone.sh
+ - chmod +x jboss-as-2/jboss-as-7.1.1.Final/bin/standalone.sh
+install:
+ - echo "install phase"
+before_script:
+ - echo "before script phase"
+script:
+ - mvn -f aerogear-js-cors-jsonp-tests/pom.xml clean package
+ - mvn -f aerogear-rest-service/pom.xml clean package
+ - mv aerogear-js-cors-jsonp-tests/target/aerogear-js-cors-jsonp-tests.war jboss-as-1/jboss-as-7.1.1.Final/standalone/deployments
+ - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-1/jboss-as-7.1.1.Final/standalone/deployments 
+ - ./jboss-as-1/jboss-as-7.1.1.Final/bin/standalone.sh &
+ - ./wait_jboss_1_to_start_up
+ - ./jboss-as-2/jboss-as-7.1.1.Final/bin/standalone.sh &
+ - ./wait_jboss_2_to_start_up
+ - phantomjs aerogear-js-cors-jsonp-tests/src/main/webapp/assets/js/lib/phantomjs-runner.js http://127.0.0.1:8080/aerogear-js-cors-jsonp-tests/rest-cors-jsonp-pipe-tests.html
