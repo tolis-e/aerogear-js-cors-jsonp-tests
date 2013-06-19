@@ -17,7 +17,7 @@ before_script:
 script:
  - mvn -f aerogear-js-cors-jsonp-tests/pom.xml clean package
  - mvn -f aerogear-rest-service/pom.xml clean package
- - mv aerogear-js-cors-jsonp-tests/target/aerogear-js-cors-jsonp-tests.war jboss-as-1/jboss-as-7.1.1.Final/standalone/deployments
+ - mv aerogear-js-cors-jsonp-tests/target/aerogear-js-cors-jsonp-tests.war jboss-as-2/jboss-as-7.1.1.Final/standalone/deployments
  - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-1/jboss-as-7.1.1.Final/standalone/deployments 
  - ./jboss-as-1/jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./jboss-as-2/jboss-as-7.1.1.Final/bin/standalone.sh &
