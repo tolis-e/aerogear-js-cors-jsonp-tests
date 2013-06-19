@@ -3,6 +3,7 @@ node_js:
  - 0.11
 before_install:
  - sudo apt-get install uml-utilities
+ - sudo modprobe tun
  - tap_interface=`sudo tunctl -b`
  - echo "$tap_interface"
  - sudo ifconfig $tap_interface 192.168.0.1 netmask 255.255.0.1 up
