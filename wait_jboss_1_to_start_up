@@ -3,8 +3,8 @@
 echo "Waiting JBoss to start up"
 jboss_status="0"
 failures=0
-until [[ "$jboss_status" != "0" ]]; do
-    jboss_status=`netstat -an | grep 192.168.0.1:9999 | grep -v grep | wc -l`
+until [[ "$jboss_status" != "2" ]]; do
+    jboss_status=`netstat -an | grep 127.0.0.1:9999 | grep -v grep | wc -l`
     echo "$jboss_status"
     if [[ "$jboss_status" == "0" ]]; then
         let "failures +=1"
