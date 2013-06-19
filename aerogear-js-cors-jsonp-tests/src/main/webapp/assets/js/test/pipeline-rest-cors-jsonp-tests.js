@@ -80,6 +80,8 @@
             {
                 name: "removeMember",
                 settings: {
+                	contentType: "application/json; charset=UTF-8",
+                	dataType: "json",
                     baseURL: BASE_URL,
                     endpoint: "remove"
                 }                
