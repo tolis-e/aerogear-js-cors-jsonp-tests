@@ -24,12 +24,12 @@ function waitFor(testFx, onReady, timeOutMillis)
         }, 100);
 };
 
+var page = require('webpage').create();
+
 page.onConsoleMessage = function (msg)
 {
     console.log(msg);
-}
-
-var page = require('webpage').create();
+};
 
 page.open(phantom.args[0], function (status) 
 {
