@@ -3,9 +3,9 @@ node_js:
  - 0.11
 before_install:
  - sudo apt-get install uml-utilities
- - TAP_INTERFACE=`sudo tunctl -b`
+ - tap_interface=`sudo tunctl -b`
  - echo "$tap_interface"
- - sudo ifconfig $TAP_INTERFACE 192.168.0.1 netmask 255.255.0.1 up
+ - sudo ifconfig $tap_interface 192.168.0.1 netmask 255.255.0.1 up
  - wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
  - tar -xvf jboss-as-7.1.1.Final.tar.gz
  - mkdir jboss-as-{1,2}
