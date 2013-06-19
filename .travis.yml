@@ -22,4 +22,5 @@ script:
  - ./jboss-as-1/jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./jboss-as-2/jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./wait_jboss_1_to_start_up
+ - ./wait_jboss_2_to_start_up
  - phantomjs aerogear-js-cors-jsonp-tests/src/main/webapp/assets/js/lib/phantomjs-runner.js http://127.0.0.1:8080/aerogear-js-cors-jsonp-tests/rest-cors-jsonp-pipe-tests.html
