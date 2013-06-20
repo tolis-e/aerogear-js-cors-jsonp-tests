@@ -15,6 +15,7 @@ before_script:
  - echo "before_script phase"
 script:
  - mvn -f aerogear-rest-service/pom.xml clean package
+ - mvn -f arquillian-qunit/pom.xml install
  - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-1/jboss-as-7.1.1.Final/standalone/deployments 
  - ./jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./wait_jboss_to_start_up
