@@ -80,6 +80,7 @@ public class QUnitTestCase {
     }
 
     private void executeQunitTestFile(TestMethod testMethod) {
+        System.out.println("#####################" + (new StringBuilder()).append(contextPath.toExternalForm()).append(testMethod.getQunitTestFile()).toString());
         driver.get((new StringBuilder()).append(contextPath.toExternalForm()).append(testMethod.getQunitTestFile()).toString());
 
         qunitPage.waitUntilTestsExecutionIsCompleted();
