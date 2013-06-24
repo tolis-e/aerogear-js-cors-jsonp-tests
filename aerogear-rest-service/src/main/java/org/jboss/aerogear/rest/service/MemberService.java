@@ -40,689 +40,523 @@ import org.jboss.aerogear.rest.persistence.PersistenceSimulator;
 
 /**
  * 
- * Dummy WS. Used just to return some valid responses.
+ * Used just to return some valid responses. Preflight response needs only Access-Control-Allow-Origin but this is a dummy WS.
+ * We just return some valid responses.
  * 
  */
 @Path("/memberservice")
 public class MemberService {
 
-	private String _corsHeaders;
+    private String _corsHeaders;
 
-	private Response makeCORS(ResponseBuilder rb, String returnMethod) {
-		rb.header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    private Response makeCORS(ResponseBuilder rb, String returnMethod) {
+        rb.header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 
-		if (!"".equals(returnMethod) && returnMethod != null) {
-			rb.header("Access-Control-Allow-Headers", returnMethod);
-		}
+        if (!"".equals(returnMethod) && returnMethod != null) {
+            rb.header("Access-Control-Allow-Headers", returnMethod);
+        }
 
-		return rb.build();
-	}
+        return rb.build();
+    }
 
-	private Response makeCORS(ResponseBuilder req) {
-		return makeCORS(req, _corsHeaders);
-	}
+    private Response makeCORS(ResponseBuilder req) {
+        return makeCORS(req, _corsHeaders);
+    }
 
-	/*
-	 * @OPTIONS
-	 * 
-	 * @Path("/members") public Response corsGetMembers(
-	 * 
-	 * @HeaderParam("Access-Control-Request-Headers") String requestH) {
-	 * _corsHeaders = requestH; return makeCORS(Response.ok(), requestH); }
-	 * 
-	 * @GET
-	 * 
-	 * @Path("/members")
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public Response
-	 * getMembers(@QueryParam("limit") String limit,
-	 * 
-	 * @QueryParam("description") String description) {
-	 * 
-	 * Response.ResponseBuilder builder = null; try { builder =
-	 * Response.ok(PersistenceSimulator.getMembers(limit, description)); } catch
-	 * (Exception e) { Map<String, String> responseObj = new HashMap<String,
-	 * String>(); responseObj.put("error", e.getMessage()); builder =
-	 * Response.status(Response.Status.BAD_REQUEST).entity( responseObj); }
-	 * 
-	 * return makeCORS(builder); }
-	 * 
-	 * @OPTIONS
-	 * 
-	 * @Path("/add") public Response corsAddMember(
-	 * 
-	 * @HeaderParam("Access-Control-Request-Headers") String requestH) {
-	 * _corsHeaders = requestH; return makeCORS(Response.ok(), requestH); }
-	 * 
-	 * @POST
-	 * 
-	 * @Path("/add")
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON)
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public Response addMember(Member
-	 * member) {
-	 * 
-	 * Response.ResponseBuilder builder = null; try { builder =
-	 * Response.ok(PersistenceSimulator.addMember(member)); } catch (Exception
-	 * e) { Map<String, String> responseObj = new HashMap<String, String>();
-	 * responseObj.put("error", e.getMessage()); builder =
-	 * Response.status(Response.Status.BAD_REQUEST).entity( responseObj); }
-	 * 
-	 * return makeCORS(builder); }
-	 * 
-	 * @OPTIONS
-	 * 
-	 * @Path("/update/{id}") public Response corsUpdateMember(@PathParam("id")
-	 * String id,
-	 * 
-	 * @HeaderParam("Access-Control-Request-Headers") String requestH) {
-	 * _corsHeaders = requestH; return makeCORS(Response.ok(), requestH); }
-	 * 
-	 * @PUT
-	 * 
-	 * @Path("/update/{id}")
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON)
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public Response updateMember(Member
-	 * member, @PathParam("id") String id) { Response.ResponseBuilder builder =
-	 * null; try { builder =
-	 * Response.ok(PersistenceSimulator.updateMember(member)); } catch
-	 * (Exception e) { Map<String, String> responseObj = new HashMap<String,
-	 * String>(); responseObj.put("error", e.getMessage()); builder =
-	 * Response.status(Response.Status.BAD_REQUEST).entity( responseObj); }
-	 * 
-	 * return makeCORS(builder); }
-	 * 
-	 * @OPTIONS
-	 * 
-	 * @Path("/remove/{id}") public Response corsRemoveMember(@PathParam("id")
-	 * String id,
-	 * 
-	 * @HeaderParam("Access-Control-Request-Headers") String requestH) {
-	 * _corsHeaders = requestH; return makeCORS(Response.ok(), requestH); }
-	 * 
-	 * @DELETE
-	 * 
-	 * @Path("/remove/{id}")
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON)
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public Response
-	 * removeMember(@PathParam("id") String id) { Response.ResponseBuilder
-	 * builder = null; try { PersistenceSimulator.removeMember(id); builder =
-	 * Response.ok("[]"); } catch (Exception e) { Map<String, String>
-	 * responseObj = new HashMap<String, String>(); responseObj.put("error",
-	 * e.getMessage()); builder =
-	 * Response.status(Response.Status.BAD_REQUEST).entity( responseObj); }
-	 * return makeCORS(builder); }
-	 */
+    @GET
+    @Path("/membersjsonp")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMembersJSONP(@QueryParam("limit") String limit, @QueryParam("description") String description) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, description));
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return builder.build();
+    }
 
-	@GET
-	@Path("/membersjsonp")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMembersJSONP(@QueryParam("limit") String limit,
-			@QueryParam("description") String description) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit,
-					description));
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return builder.build();
-	}
-	
-	@OPTIONS
-	@Path("/members")
-	public Response corsGetMembers(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/members")
+    public Response corsGetMembers(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/members")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMembers(@QueryParam("limit") String limit,
-			@QueryParam("description") String description) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembersByLimitAndDesc(limit,
-					description));
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+    @GET
+    @Path("/members")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMembers(@QueryParam("limit") String limit, @QueryParam("description") String description) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembersByLimitAndDesc(limit, description));
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/member/{id}")
-	public Response corsGetMember(
-			@HeaderParam("Access-Control-Request-Headers") String requestH,
-			@PathParam("id") String id) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/member/{id}")
+    public Response corsGetMember(@HeaderParam("Access-Control-Request-Headers") String requestH, @PathParam("id") String id) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/member/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMember(@QueryParam("limit") String limit,
-			@PathParam("id") String id) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, id));
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+    @GET
+    @Path("/member/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMember(@QueryParam("limit") String limit, @PathParam("id") String id) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, id));
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages")
-	public Response corsGetMemberPages(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages")
+    public Response corsGetMemberPages(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPages(@QueryParam("limit") String limit,
-			@QueryParam("offset") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "Link");
-			builder.header(
-					"Link",
-					"<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=0&limit=2>; rel=\"previous\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=2&limit=2>; rel=\"next\"");
+    @GET
+    @Path("/memberpages")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPages(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "Link");
+            builder.header(
+                    "Link",
+                    "<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=0&limit=2>; rel=\"previous\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=2&limit=2>; rel=\"next\"");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpagescustom")
-	public Response corsGetMemberPagesCustomId(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpagescustom")
+    public Response corsGetMemberPagesCustomId(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpagescustom")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesCustomId(@QueryParam("limit") String limit,
-			@QueryParam("offset") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "Link");
-			builder.header(
-					"Link",
-					"<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=0&limit=2>; rel=\"previous_page\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=2&limit=2>; rel=\"next_page\"");
+    @GET
+    @Path("/memberpagescustom")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesCustomId(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "Link");
+            builder.header(
+                    "Link",
+                    "<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=0&limit=2>; rel=\"previous_page\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?offset=2&limit=2>; rel=\"next_page\"");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpagescustomparams")
-	public Response corsGetMemberPagesCustomParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpagescustomparams")
+    public Response corsGetMemberPagesCustomParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpagescustomparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesCustomParams(
-			@QueryParam("pageNumber") String limit,
-			@QueryParam("objectLimit") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "Link");
-			builder.header(
-					"Link",
-					"<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=0&objectLimit=2>; rel=\"previous\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=2&objectLimit=2>; rel=\"next\"");
+    @GET
+    @Path("/memberpagescustomparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesCustomParams(@QueryParam("pageNumber") String limit, @QueryParam("objectLimit") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "Link");
+            builder.header(
+                    "Link",
+                    "<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=0&objectLimit=2>; rel=\"previous\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=2&objectLimit=2>; rel=\"next\"");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpagescustomidsandparams")
-	public Response corsGetMemberPagesCustomIdsAndParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpagescustomidsandparams")
+    public Response corsGetMemberPagesCustomIdsAndParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpagescustomidsandparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesCustomIdsAndParams(
-			@QueryParam("pageNumber") String limit,
-			@QueryParam("objectLimit") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "Link");
-			builder.header(
-					"Link",
-					"<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=0&objectLimit=2>; rel=\"previous_page\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=2&objectLimit=2>; rel=\"next_page\"");
+    @GET
+    @Path("/memberpagescustomidsandparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesCustomIdsAndParams(@QueryParam("pageNumber") String limit,
+            @QueryParam("objectLimit") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "Link");
+            builder.header(
+                    "Link",
+                    "<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=0&objectLimit=2>; rel=\"previous_page\",<http://192.168.0.1:8080/aerogear-rest-service/rest/memberservice/memberpages?pageNumber=2&objectLimit=2>; rel=\"next_page\"");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/headertest")
-	public Response corsGetMemberPagesHeader(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/headertest")
+    public Response corsGetMemberPagesHeader(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/headertest")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesHeader(@QueryParam("offset") String limit,
-			@QueryParam("limit") String id) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "next,previous");
-			builder.header("next", "/memberpages/headertest?offset=2&limit=2");
-			builder.header("previous",
-					"/memberpages/headertest?offset=0&limit=2");
+    @GET
+    @Path("/memberpages/headertest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesHeader(@QueryParam("offset") String limit, @QueryParam("limit") String id) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "next,previous");
+            builder.header("next", "/memberpages/headertest?offset=2&limit=2");
+            builder.header("previous", "/memberpages/headertest?offset=0&limit=2");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/headertestcustomids")
-	public Response corsGetMemberPagesHeaderCustomIds(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/headertestcustomids")
+    public Response corsGetMemberPagesHeaderCustomIds(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/headertestcustomids")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesHeaderCustomIds(
-			@QueryParam("offset") String limit, @QueryParam("limit") String id) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
-			builder.header("next_page",
-					"/memberpages/headertestcustomids?offset=2&limit=2");
-			builder.header("previous_page",
-					"/memberpages/headertestcustomids?offset=0&limit=2");
+    @GET
+    @Path("/memberpages/headertestcustomids")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesHeaderCustomIds(@QueryParam("offset") String limit, @QueryParam("limit") String id) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
+            builder.header("next_page", "/memberpages/headertestcustomids?offset=2&limit=2");
+            builder.header("previous_page", "/memberpages/headertestcustomids?offset=0&limit=2");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/headertestcustomparams")
-	public Response corsGetMemberPagesHeaderCustomParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/headertestcustomparams")
+    public Response corsGetMemberPagesHeaderCustomParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/headertestcustomparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesHeaderCustomParams(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "next,previous");
-			builder.header("next",
-					"/memberpages/headertestcustomparams?pageNumber=2&objectLimit=2");
-			builder.header("previous",
-					"/memberpages/headertestcustomparams?pageNumber=0&objectLimit=2");
+    @GET
+    @Path("/memberpages/headertestcustomparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesHeaderCustomParams(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "next,previous");
+            builder.header("next", "/memberpages/headertestcustomparams?pageNumber=2&objectLimit=2");
+            builder.header("previous", "/memberpages/headertestcustomparams?pageNumber=0&objectLimit=2");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/headertestcustomidsandparams")
-	public Response corsGetMemberPagesHeaderCustomIdsAndParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/headertestcustomidsandparams")
+    public Response corsGetMemberPagesHeaderCustomIdsAndParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/headertestcustomidsandparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesHeaderCustomIdsAndParams(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
-			builder.header("next_page",
-					"/memberpages/headertestcustomparams?pageNumber=2&objectLimit=2");
-			builder.header("previous_page",
-					"/memberpages/headertestcustomparams?pageNumber=0&objectLimit=2");
+    @GET
+    @Path("/memberpages/headertestcustomidsandparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesHeaderCustomIdsAndParams(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
+            builder.header("next_page", "/memberpages/headertestcustomparams?pageNumber=2&objectLimit=2");
+            builder.header("previous_page", "/memberpages/headertestcustomparams?pageNumber=0&objectLimit=2");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/headertestcustomidsparamsandparamprovider")
-	public Response corsGetMemberPagesHeaderCustomIdsParamsAndParamProvider(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/headertestcustomidsparamsandparamprovider")
+    public Response corsGetMemberPagesHeaderCustomIdsParamsAndParamProvider(
+            @HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/headertestcustomidsparamsandparamprovider")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesHeaderCustomIdsParamsAndParamProvider(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
-			builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
-			builder.header("next_page", "{\"pageNumber\":0,\"objectLimit\":2}");
-			builder.header("previous_page",
-					"{\"pageNumber\":2,\"objectLimit\":2}");
+    @GET
+    @Path("/memberpages/headertestcustomidsparamsandparamprovider")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesHeaderCustomIdsParamsAndParamProvider(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
+            builder.header("Access-Control-Expose-Headers", "next_page,previous_page");
+            builder.header("next_page", "{\"pageNumber\":0,\"objectLimit\":2}");
+            builder.header("previous_page", "{\"pageNumber\":2,\"objectLimit\":2}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/bodytest")
-	public Response corsGetMemberPagesBody(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/bodytest")
+    public Response corsGetMemberPagesBody(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/bodytest")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesBody(@QueryParam("limit") String limit,
-			@QueryParam("offset") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response
-					.ok("{\"next\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous\":{\"offset\":\"0\",\"limit\":\"2\"}}");
+    @GET
+    @Path("/memberpages/bodytest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesBody(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response
+                    .ok("{\"next\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous\":{\"offset\":\"0\",\"limit\":\"2\"}}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/bodytestcustomids")
-	public Response corsGetMemberPagesBodyCustomIds(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/bodytestcustomids")
+    public Response corsGetMemberPagesBodyCustomIds(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/bodytestcustomids")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesBodyCustomIds(
-			@QueryParam("limit") String limit,
-			@QueryParam("offset") String offset) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response
-					.ok("{\"next_page\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous_page\":{\"offset\":\"0\",\"limit\":\"2\"}}");
+    @GET
+    @Path("/memberpages/bodytestcustomids")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesBodyCustomIds(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response
+                    .ok("{\"next_page\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous_page\":{\"offset\":\"0\",\"limit\":\"2\"}}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/bodytestcustomqueryparams")
-	public Response corsGetMemberPagesBodyCustomQueryParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/bodytestcustomqueryparams")
+    public Response corsGetMemberPagesBodyCustomQueryParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/bodytestcustomqueryparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesBodyCustomQueryParams(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response
-					.ok("{\"next\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous\":{\"offset\":\"0\",\"limit\":\"2\"}}");
+    @GET
+    @Path("/memberpages/bodytestcustomqueryparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesBodyCustomQueryParams(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response
+                    .ok("{\"next\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous\":{\"offset\":\"0\",\"limit\":\"2\"}}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/bodytestcustomidsandparams")
-	public Response corsGetMemberPagesBodyCustomIdsAndParams(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/bodytestcustomidsandparams")
+    public Response corsGetMemberPagesBodyCustomIdsAndParams(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/bodytestcustomidsandparams")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesBodyCustomIdsAndParams(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response
-					.ok("{\"next_page\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous_page\":{\"offset\":\"0\",\"limit\":\"2\"}}");
+    @GET
+    @Path("/memberpages/bodytestcustomidsandparams")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesBodyCustomIdsAndParams(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response
+                    .ok("{\"next_page\":{\"offset\":\"2\",\"limit\":\"2\"},\"previous_page\":{\"offset\":\"0\",\"limit\":\"2\"}}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/memberpages/bodytestcustomidsparamsandparamprovider")
-	public Response corsGetMemberPagesBodyCustomIdsParamsAndParamProvider(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/memberpages/bodytestcustomidsparamsandparamprovider")
+    public Response corsGetMemberPagesBodyCustomIdsParamsAndParamProvider(
+            @HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@GET
-	@Path("/memberpages/bodytestcustomidsparamsandparamprovider")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMemberPagesBodyCustomIdsParamsAndParamProvider(
-			@QueryParam("pageNumber") String pageNumber,
-			@QueryParam("objectLimit") String limit) {
-		Response.ResponseBuilder builder = null;
-		try {
+    @GET
+    @Path("/memberpages/bodytestcustomidsparamsandparamprovider")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMemberPagesBodyCustomIdsParamsAndParamProvider(@QueryParam("pageNumber") String pageNumber,
+            @QueryParam("objectLimit") String limit) {
+        Response.ResponseBuilder builder = null;
+        try {
 
-			builder = Response
-					.ok("{ \"next_page\": { \"pageNumber\": \"1\", \"objectLimit\": \"2\"}, \"previous_page\": { \"pageNumber\": \"3\", \"objectLimit\": \"2\" }}");
+            builder = Response
+                    .ok("{ \"next_page\": { \"pageNumber\": \"1\", \"objectLimit\": \"2\"}, \"previous_page\": { \"pageNumber\": \"3\", \"objectLimit\": \"2\" }}");
 
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/add")
-	public Response corsAddMember(
-			@HeaderParam("Access-Control-Request-Headers") String requestH) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/add")
+    public Response corsAddMember(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@POST
-	@Path("/add")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addMember(Member member) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.addMember(member));
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+    @POST
+    @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addMember(Member member) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.addMember(member));
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 
-	@OPTIONS
-	@Path("/update/{id}")
-	public Response corsUpdateMember(
-			@HeaderParam("Access-Control-Request-Headers") String requestH,
-			@PathParam("id") String id) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
+    @OPTIONS
+    @Path("/update/{id}")
+    public Response corsUpdateMember(@HeaderParam("Access-Control-Request-Headers") String requestH, @PathParam("id") String id) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
 
-	@PUT
-	@Path("/update/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateMember(Member member, @PathParam("id") String id) {
-		Response.ResponseBuilder builder = null;
-		try {
-			builder = Response.ok(PersistenceSimulator.updateMember(member));
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
-	
-	@OPTIONS
-	@Path("/remove/{id}")
-	public Response corsremoveMember(
-			@HeaderParam("Access-Control-Request-Headers") String requestH,
-			@PathParam("id") String id) {
-		_corsHeaders = requestH;
-		return makeCORS(Response.ok(), requestH);
-	}
-	
-	@DELETE
-	@Path("/remove/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeMember(@PathParam("id") String id) {
-		Response.ResponseBuilder builder = null;
-		try {
-			PersistenceSimulator.removeMember(id);
-			builder = Response.ok("[]");
-		} catch (Exception e) {
-			Map<String, String> responseObj = new HashMap<String, String>();
-			responseObj.put("error", e.getMessage());
-			builder = Response.status(Response.Status.BAD_REQUEST).entity(
-					responseObj);
-		}
-		return makeCORS(builder);
-	}
+    @PUT
+    @Path("/update/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateMember(Member member, @PathParam("id") String id) {
+        Response.ResponseBuilder builder = null;
+        try {
+            builder = Response.ok(PersistenceSimulator.updateMember(member));
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
+
+    @OPTIONS
+    @Path("/remove/{id}")
+    public Response corsremoveMember(@HeaderParam("Access-Control-Request-Headers") String requestH, @PathParam("id") String id) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
+
+    @DELETE
+    @Path("/remove/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeMember(@PathParam("id") String id) {
+        Response.ResponseBuilder builder = null;
+        try {
+            PersistenceSimulator.removeMember(id);
+            builder = Response.ok("[]");
+        } catch (Exception e) {
+            Map<String, String> responseObj = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+        return makeCORS(builder);
+    }
 }
