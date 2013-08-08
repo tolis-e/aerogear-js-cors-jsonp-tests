@@ -51,8 +51,6 @@ public class MemberService {
 
     private Response makeCORS(ResponseBuilder rb, String returnMethod) {
     	
-    	System.out.println("## makeCors call");
-    	
         rb.header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 
         if (!"".equals(returnMethod) && returnMethod != null) {
@@ -71,8 +69,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMembersJSONP(@QueryParam("limit") String limit, @QueryParam("description") String description) {
         
-    	System.out.println("## getMembersJSONP");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, description));
@@ -96,8 +92,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMembers(@QueryParam("limit") String limit, @QueryParam("description") String description) {
         
-    	System.out.println("## getMembers");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembersByLimitAndDesc(limit, description));
@@ -121,9 +115,7 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMember(@QueryParam("limit") String limit, @PathParam("id") String id) {
     	
-    	System.out.println("## getMember");
-    	
-        Response.ResponseBuilder builder = null;
+    	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, id));
         } catch (Exception e) {
@@ -146,9 +138,7 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPages(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
     	
-    	System.out.println("## getMemberPages");
-    	
-        Response.ResponseBuilder builder = null;
+    	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
             builder.header("Access-Control-Expose-Headers", "Link");
@@ -176,8 +166,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesCustomId(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
         
-    	System.out.println("## getMemberPagesCustomId");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -206,8 +194,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesCustomParams(@QueryParam("pageNumber") String limit, @QueryParam("objectLimit") String offset) {
         
-    	System.out.println("## getMemberPagesCustomParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -237,8 +223,6 @@ public class MemberService {
     public Response getMemberPagesCustomIdsAndParams(@QueryParam("pageNumber") String limit,
             @QueryParam("objectLimit") String offset) {
         
-    	System.out.println("## getMemberPagesCustomIdsAndParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -267,8 +251,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesHeader(@QueryParam("offset") String limit, @QueryParam("limit") String id) {
         
-    	System.out.println("## getMemberPagesHeader");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -296,8 +278,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesHeaderCustomIds(@QueryParam("offset") String limit, @QueryParam("limit") String id) {
         
-    	System.out.println("## getMemberPagesHeaderCustomIds");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -326,8 +306,6 @@ public class MemberService {
     public Response getMemberPagesHeaderCustomParams(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesHeaderCustomParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -356,8 +334,6 @@ public class MemberService {
     public Response getMemberPagesHeaderCustomIdsAndParams(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesHeaderCustomIdsAndParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -387,8 +363,6 @@ public class MemberService {
     public Response getMemberPagesHeaderCustomIdsParamsAndParamProvider(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesHeaderCustomIdsParamsAndParamProvider");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.getMembers(limit, ""));
@@ -416,8 +390,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesBody(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
         
-    	System.out.println("## getMemberPagesBody");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response
@@ -443,8 +415,6 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMemberPagesBodyCustomIds(@QueryParam("limit") String limit, @QueryParam("offset") String offset) {
         
-    	System.out.println("## getMemberPagesBodyCustomIds");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response
@@ -471,8 +441,6 @@ public class MemberService {
     public Response getMemberPagesBodyCustomQueryParams(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesBodyCustomQueryParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response
@@ -499,8 +467,6 @@ public class MemberService {
     public Response getMemberPagesBodyCustomIdsAndParams(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesBodyCustomIdsAndParams");
-    	
     	Response.ResponseBuilder builder = null;
         try {
             builder = Response
@@ -528,8 +494,6 @@ public class MemberService {
     public Response getMemberPagesBodyCustomIdsParamsAndParamProvider(@QueryParam("pageNumber") String pageNumber,
             @QueryParam("objectLimit") String limit) {
         
-    	System.out.println("## getMemberPagesBodyCustomIdsParamsAndParamProvider");
-    	
     	Response.ResponseBuilder builder = null;
         try {
 
@@ -557,9 +521,7 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addMember(Member member) {
     	
-    	System.out.println("## addMember");
-    	
-        Response.ResponseBuilder builder = null;
+    	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.addMember(member));
         } catch (Exception e) {
@@ -583,9 +545,7 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateMember(Member member, @PathParam("id") String id) {
     	
-    	System.out.println("## updateMember");
-    	
-        Response.ResponseBuilder builder = null;
+    	Response.ResponseBuilder builder = null;
         try {
             builder = Response.ok(PersistenceSimulator.updateMember(member));
         } catch (Exception e) {
@@ -609,9 +569,7 @@ public class MemberService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeMember(@PathParam("id") String id) {
     	
-    	System.out.println("## removeMember");
-    	
-        Response.ResponseBuilder builder = null;
+    	Response.ResponseBuilder builder = null;
         try {
             PersistenceSimulator.removeMember(id);
             builder = Response.ok("[]");

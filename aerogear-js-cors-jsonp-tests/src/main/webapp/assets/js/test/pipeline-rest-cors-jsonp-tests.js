@@ -290,8 +290,6 @@
     asyncTest("save method", function () {
         expect(3);
         
-        console.log("## save method");
-        
         var save = saveMemberPipe.save({
                 description: "description_1"
             }, {
@@ -310,8 +308,6 @@
     // update method test
     asyncTest("update method", function () {
         expect(6);
-        
-        console.log("## update method");
         
         var save,
             update,
@@ -351,8 +347,6 @@
     // read method test
     asyncTest("read method", function () {
         expect(5);
-        
-        console.log("## read method");
         
         var save,
             read,
