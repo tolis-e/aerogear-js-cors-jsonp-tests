@@ -380,7 +380,6 @@
     });
     
     // remove method test
-    /*
     asyncTest("remove method", function () {
         expect(6);
         
@@ -425,7 +424,6 @@
         
         });
     });
-    */
     
     // read with limit filter method test
     asyncTest("read method with limit filter", function () {

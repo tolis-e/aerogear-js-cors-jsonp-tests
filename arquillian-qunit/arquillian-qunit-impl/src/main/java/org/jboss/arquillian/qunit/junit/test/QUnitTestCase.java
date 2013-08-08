@@ -80,10 +80,11 @@ public class QUnitTestCase {
     }
 
     private void executeQunitTestFile(TestMethod testMethod) {
-        System.out.println("#####################" + (new StringBuilder()).append(contextPath.toExternalForm()).append(testMethod.getQunitTestFile()).toString());
+        System.out.println("## Arquillian QUnit root context: " + (new StringBuilder()).append(contextPath.toExternalForm()).append(testMethod.getQunitTestFile()).toString());
         driver.get((new StringBuilder()).append(contextPath.toExternalForm()).append(testMethod.getQunitTestFile()).toString());
-
+        System.out.println("## Arquillian QUnit driver opened page");
         qunitPage.waitUntilTestsExecutionIsCompleted();
+        System.out.println("## Arquillian QUnit tests are completed");
         final QUnitTestImpl[] qunitTests = qunitPage.getTests();
 
         if (!ArrayUtils.isEmpty(qunitTests)) {
