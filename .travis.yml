@@ -1,6 +1,8 @@
 language: java
 jdk:
  - openjdk7
+addons:
+  firefox: "22.0"
 before_install:
  - wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
  - tar -xvf jboss-as-7.1.1.Final.tar.gz
@@ -8,8 +10,8 @@ before_install:
  - chmod +x jboss-as-7.1.1.Final/bin/standalone.sh
 install:
   - echo "install begin"
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  #- export DISPLAY=:99.0
+  #- sh -e /etc/init.d/xvfb start
   - echo "install end"
 before_script:
  - echo "before_script phase"
