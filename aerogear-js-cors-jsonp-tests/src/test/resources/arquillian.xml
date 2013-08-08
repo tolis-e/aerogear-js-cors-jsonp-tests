@@ -26,7 +26,7 @@ http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
     <!-- Configuration to be used when the JBoss managed profile is active -->
     <container qualifier="jboss-managed" default="true">
         <configuration>
-            <property name="jbossHome">${basedir}/target/jboss-as-7.1.1.Final</property>
+            <property name="jbossHome">${jbossHome:target/jboss-as-7.1.1.Final}</property>
         </configuration>
     </container>
 
