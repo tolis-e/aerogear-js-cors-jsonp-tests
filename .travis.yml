@@ -8,18 +8,15 @@ before_install:
  - tar -xvf jboss-as-7.1.1.Final.tar.gz
  - mv help-files/standalone.xml jboss-as-7.1.1.Final/standalone/configuration
  - chmod +x jboss-as-7.1.1.Final/bin/standalone.sh
+ - git clone https://github.com/arquillian/arquillian-extension-qunit.git
 install:
-  - echo "install begin"
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - echo "install end"
-before_script:
- - echo "before_script phase"
+  - mvn -f arquillian-extension-qunit/pom.xml install
+before_script: true
 script:
- - mvn -f aerogear-rest-service/pom.xml clean package
- - mvn -f arquillian-qunit/pom.xml install
- - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-7.1.1.Final/standalone/deployments 
+ - mvn -f aerogear-rest-service/pom.xml package
+ - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-7.1.1.Final/standalone/deployments
  - ./jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./wait_jboss_to_start_up
- - mvn -f aerogear-js-cors-jsonp-tests/pom.xml clean package
-
+ - mvn -f aerogear-js-cors-jsonp-tests/pom.xml test
