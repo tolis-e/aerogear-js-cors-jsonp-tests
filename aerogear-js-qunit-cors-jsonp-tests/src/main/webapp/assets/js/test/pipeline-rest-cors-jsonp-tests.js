@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 (function ($) {
-    
-    QUnit.config.reorder = false;
 
     var REST_WS_CONTEXT_PATH = "/aerogear-rest-service/rest/memberservice/",
         BASE_URL = ["http://127.0.0.1:8081", REST_WS_CONTEXT_PATH].join(""),

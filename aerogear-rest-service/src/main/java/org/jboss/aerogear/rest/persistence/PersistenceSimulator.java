@@ -27,87 +27,86 @@ import org.jboss.aerogear.rest.model.Member;
 
 public class PersistenceSimulator {
 
-	private static Hashtable<String, Member> ht = new Hashtable<String, Member>();
+    private static Hashtable<String, Member> ht = new Hashtable<String, Member>();
 
-	public static final Member addMember(Member m) {
-		m.setId(RandomStringUtilities.generateRandomId(20));
-		ht.put(m.getId(), m);
-		return m;
-	}
+    public static final Member addMember(Member m) {
+        m.setId(RandomStringUtilities.generateRandomId(20));
+        ht.put(m.getId(), m);
+        return m;
+    }
 
-	public static final Member updateMember(Member m) {
-		ht.put(m.getId(), m);
-		return m;
-	}
+    public static final Member updateMember(Member m) {
+        ht.put(m.getId(), m);
+        return m;
+    }
 
-	public static final void removeMember(String id) {
-		ht.remove(id);
-	}
+    public static final void removeMember(String id) {
+        ht.remove(id);
+    }
 
-	public static final List<Member> getMembers(String limit, String id) {
-		final List<Member> list = (new ArrayList<Member>());
+    public static final List<Member> getMembers(String limit, String id) {
+        final List<Member> list = (new ArrayList<Member>());
 
-		if (id != null && !id.trim().equals("")) {
-			list.add(ht.get(id));
-			return list;
-		} else if (!StringUtils.isEmpty(limit)) {
-			Iterator<String> iter = ht.keySet().iterator();
-			while (iter.hasNext()) {
+        if (id != null && !id.trim().equals("")) {
+            list.add(ht.get(id));
+            return list;
+        } else if (!StringUtils.isEmpty(limit)) {
+            Iterator<String> iter = ht.keySet().iterator();
+            while (iter.hasNext()) {
 
-				if (list.size() >= Integer.parseInt(limit))
-					break;
+                if (list.size() >= Integer.parseInt(limit))
+                    break;
 
-				final String key = iter.next();
-				final Member member = ht.get(key);
+                final String key = iter.next();
+                final Member member = ht.get(key);
 
-				list.add(member);
+                list.add(member);
 
-			}
-			return list;
-		}
+            }
+            return list;
+        }
 
-		list.addAll(ht.values());
-		return list;
-	}
-	
-	public static final List<Member> getMembersByLimitAndDesc(String limit,
-			String desc) {
-		final List<Member> list = (new ArrayList<Member>());
+        list.addAll(ht.values());
+        return list;
+    }
 
-		if (!StringUtils.isEmpty(desc)) {
+    public static final List<Member> getMembersByLimitAndDesc(String limit, String desc) {
+        final List<Member> list = (new ArrayList<Member>());
 
-			Iterator<String> iter = ht.keySet().iterator();
-			while (iter.hasNext()) {
+        if (!StringUtils.isEmpty(desc)) {
 
-				if (list.size() >= Integer.parseInt(limit)) {
-					break;
-				}
+            Iterator<String> iter = ht.keySet().iterator();
+            while (iter.hasNext()) {
 
-				final String key = iter.next();
-				final Member member = ht.get(key);
-				if (desc.equals(member.getDescription())) {
-					list.add(member);
-				}
-			}
+                if (list.size() >= Integer.parseInt(limit)) {
+                    break;
+                }
 
-			return list;
-		} else if (!StringUtils.isEmpty(limit)) {
-			Iterator<String> iter = ht.keySet().iterator();
-			while (iter.hasNext()) {
+                final String key = iter.next();
+                final Member member = ht.get(key);
+                if (desc.equals(member.getDescription())) {
+                    list.add(member);
+                }
+            }
 
-				if (list.size() >= Integer.parseInt(limit))
-					break;
+            return list;
+        } else if (!StringUtils.isEmpty(limit)) {
+            Iterator<String> iter = ht.keySet().iterator();
+            while (iter.hasNext()) {
 
-				final String key = iter.next();
-				final Member member = ht.get(key);
+                if (list.size() >= Integer.parseInt(limit))
+                    break;
 
-				list.add(member);
+                final String key = iter.next();
+                final Member member = ht.get(key);
 
-			}
-			return list;
-		}
+                list.add(member);
 
-		list.addAll(ht.values());
-		return list;
-	}
+            }
+            return list;
+        }
+
+        list.addAll(ht.values());
+        return list;
+    }
 }

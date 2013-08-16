@@ -19,4 +19,4 @@ script:
  - mv aerogear-rest-service/target/aerogear-rest-service.war jboss-as-7.1.1.Final/standalone/deployments
  - ./jboss-as-7.1.1.Final/bin/standalone.sh &
  - ./wait_jboss_to_start_up
- - mvn -f aerogear-js-cors-jsonp-tests/pom.xml test
+ - mvn -f aerogear-js-qunit-cors-jsonp-tests/pom.xml test
