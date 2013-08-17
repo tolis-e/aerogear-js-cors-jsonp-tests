@@ -16,17 +16,24 @@
  */
 package org.jboss.aerogear.js.pipeline.rest;
 
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.qunit.junit.QUnitRunner;
 import org.jboss.arquillian.qunit.junit.annotations.QUnitResources;
 import org.jboss.arquillian.qunit.junit.annotations.QUnitTest;
+import org.jboss.shrinkwrap.api.Archive;
 import org.junit.runner.RunWith;
 
 @RunWith(QUnitRunner.class)
 @QUnitResources("src/main/webapp")
 @RunAsClient
 public class AerogearJsRestAdapterTestCase {
+
+    @Deployment
+    public static Archive<?> createDeployment() {
+        return null;
+    }
 
     @QUnitTest("rest-cors-jsonp-pipe-tests.html")
     @InSequence(1)
