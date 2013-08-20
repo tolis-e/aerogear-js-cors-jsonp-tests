@@ -256,7 +256,9 @@
             <coordinator-environment default-timeout="300"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="default-host" native="false">
-            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>
+            <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" secure="true">
+                <ssl name="aerogear-ssl" key-alias="aerogear" password="aerogear" certificate-key-file="/home/travis/build/tolis-e/aerogear-js-cors-jsonp-tests/help-files/aerogear.keystore" protocol="TLSv1"/>
+            </connector>
             <virtual-server name="default-host" enable-welcome-root="true">
                 <alias name="localhost"/>
                 <alias name="example.com"/>
@@ -293,7 +295,7 @@
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9446}"/>
         <socket-binding name="ajp" port="8888"/>
         <socket-binding name="http" port="8081"/>
-        <socket-binding name="https" port="8443"/>
+        <socket-binding name="https" port="8444"/>
         <socket-binding name="osgi-http" interface="management" port="8090"/>
         <socket-binding name="remoting" port="4448"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
@@ -304,4 +306,3 @@
     </socket-binding-group>
 
 </server>
-
