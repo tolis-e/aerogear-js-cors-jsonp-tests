@@ -35,10 +35,15 @@ public class AerogearJsRestAdapterTestCase {
         return null;
     }
 
-    @QUnitTest("rest-cors-jsonp-pipe-tests.html")
+    @QUnitTest("rest-cors-jsonp-pipe-secured-endpoint-tests.html")
     @InSequence(1)
-    public void qunitRestPipeTest() {
+    public void qunitRestPipeSecureEndpointTests() {
         // intentionally left empty
     }
-
+    
+    @QUnitTest("rest-cors-jsonp-pipe-tests.html")
+    @InSequence(1)
+    public void qunitRestPipeTests() {
+        // intentionally left empty
+    }
 }
