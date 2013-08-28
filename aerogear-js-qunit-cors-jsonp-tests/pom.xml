@@ -34,7 +34,7 @@
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.org.jboss.spec>3.0.2.Final</version.org.jboss.spec>
         <version.junit>4.11</version.junit>
-        <version.org.jboss.arquillian.qunit>1.0.0.Alpha1-SNAPSHOT</version.org.jboss.arquillian.qunit>
+        <version.org.jboss.arquillian.qunit>1.0.0.Alpha1</version.org.jboss.arquillian.qunit>
         <version.org.apache.maven.compiler.plugin>2.3.2</version.org.apache.maven.compiler.plugin>
         <version.org.apache.maven.surefire.plugin>2.14</version.org.apache.maven.surefire.plugin>
     </properties>
@@ -175,23 +175,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- This POM serves as BOM (Bill of Materials) for managing core Selenium dependency versions. -->
-            <dependency>
-                <groupId>org.jboss.arquillian.selenium</groupId>
-                <artifactId>selenium-bom</artifactId>
-                <version>${version.selenium}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- Starting point for integration Graphene test suites. -->
-            <dependency>
-                <groupId>org.jboss.arquillian.graphene</groupId>
-                <artifactId>graphene-webdriver</artifactId>
-                <version>${version.org.jboss.arquillian.graphene}</version>
-                <type>pom</type>
-            </dependency>
-
             <!-- Arquillian BOM (Bill Of Materials). -->
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
@@ -213,21 +196,6 @@
 
     <dependencies>
 
-        <!-- Starting point for integration Graphene test suites. -->
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver</artifactId>
-            <type>pom</type>
-        </dependency>
-
-        <!-- Arquillian BOM (Bill Of Materials). -->
-        <dependency>
-            <groupId>org.jboss.arquillian</groupId>
-            <artifactId>arquillian-bom</artifactId>
-            <version>${version.org.jboss.arquillian}</version>
-            <type>pom</type>
-        </dependency>
-
         <!-- JUnit regression testing framework. -->
         <dependency>
             <groupId>junit</groupId>
@@ -242,8 +210,8 @@
         
         <!-- Arquillian QUnit -->
         <dependency>
-            <groupId>org.jboss.arquillian.qunit</groupId>
-            <artifactId>arquillian-qunit-impl</artifactId>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-qunit</artifactId>
             <version>${version.org.jboss.arquillian.qunit}</version>
         </dependency>
 

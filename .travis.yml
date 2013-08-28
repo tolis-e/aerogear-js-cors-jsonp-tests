@@ -8,7 +8,6 @@ before_install:
  - tar -xvf jboss-as-7.1.1.Final.tar.gz
  - mv help-files/standalone.xml jboss-as-7.1.1.Final/standalone/configuration
  - chmod +x jboss-as-7.1.1.Final/bin/standalone.sh
- - git clone https://github.com/arquillian/arquillian-extension-qunit.git
 install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start

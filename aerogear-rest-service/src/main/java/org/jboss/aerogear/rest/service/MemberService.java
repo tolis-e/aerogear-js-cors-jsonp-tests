@@ -49,7 +49,10 @@ public class MemberService {
 
     private Response makeCORS(ResponseBuilder rb, String returnMethod) {
 
-        rb.header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+        rb.header("Access-Control-Allow-Origin", "*")
+          .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+          .header("Access-Control-Expose-Headers", "accept,origin,content-type,link,ag-links-next,ag-links-previous,Link,next,previous,next_page,previous_page")
+          .header("Access-Control-Allow-Credentials", "true");
 
         if (!"".equals(returnMethod) && returnMethod != null) {
             rb.header("Access-Control-Allow-Headers", returnMethod);
@@ -563,8 +566,6 @@ public class MemberService {
 
     @DELETE
     @Path("/remove/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response removeMember(@PathParam("id") String id) {
 
         Response.ResponseBuilder builder = null;
