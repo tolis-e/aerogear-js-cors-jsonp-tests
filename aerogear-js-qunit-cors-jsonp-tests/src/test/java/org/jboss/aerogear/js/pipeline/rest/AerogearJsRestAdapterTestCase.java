@@ -17,7 +17,6 @@
 package org.jboss.aerogear.js.pipeline.rest;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.qunit.junit.QUnitRunner;
 import org.jboss.arquillian.qunit.junit.annotations.QUnitResources;
@@ -27,7 +26,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(QUnitRunner.class)
 @QUnitResources("src/main/webapp")
-@RunAsClient
 public class AerogearJsRestAdapterTestCase {
 
     @Deployment

@@ -28,13 +28,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.org.jboss.arquillian.graphene>2.0.0.Alpha4</version.org.jboss.arquillian.graphene>
-        <version.org.jboss.arquillian>1.0.4.Final</version.org.jboss.arquillian>
-        <version.selenium>2.33.0</version.selenium>
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.org.jboss.spec>3.0.2.Final</version.org.jboss.spec>
+        <version.org.jboss.arquillian>1.1.1.Final</version.org.jboss.arquillian>
+        <version.org.jboss.arquillian.drone>1.2.0.Final</version.org.jboss.arquillian.drone>
+        <version.org.jboss.arquillian.qunit>1.0.0.Alpha2</version.org.jboss.arquillian.qunit>
         <version.junit>4.11</version.junit>
-        <version.org.jboss.arquillian.qunit>1.0.0.Alpha1</version.org.jboss.arquillian.qunit>
         <version.org.apache.maven.compiler.plugin>2.3.2</version.org.apache.maven.compiler.plugin>
         <version.org.apache.maven.surefire.plugin>2.14</version.org.apache.maven.surefire.plugin>
     </properties>
@@ -177,18 +176,20 @@
 
             <!-- Arquillian BOM (Bill Of Materials). -->
             <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${version.org.jboss.arquillian.drone}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!-- Arquillian BOM (Bill Of Materials). -->
+            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>${version.org.jboss.arquillian}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-
-            <!-- JUnit regression testing framework. -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${version.junit}</version>
             </dependency>
 
         </dependencies>
@@ -200,12 +201,15 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
         </dependency>
         
         <!-- JUnit Container Implementation for the Arquillian Project -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
         </dependency>
         
         <!-- Arquillian QUnit -->
@@ -213,6 +217,7 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-qunit</artifactId>
             <version>${version.org.jboss.arquillian.qunit}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
